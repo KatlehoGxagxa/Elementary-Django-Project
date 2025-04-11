@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'register/styles.css' %}">
+</head>
+<body>
+    <div class="registration-container">
+        <form method="POST" action="/register/" onsubmit="return validatePasswords()">
+            {% csrf_token %}
+            <h1 class="logo">Sign Up</h1>
+
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="First Name" 
+                required 
+                minlength="2" 
+                pattern="[A-Za-z]+" 
+                title="Name should be at least 2 letters and contain only alphabetic characters">
+
+            <input 
+                type="text" 
+                name="surname" 
+                placeholder="Last Name" 
+                required 
+                minlength="2" 
+                pattern="[A-Za-z]+" 
+                title="Surname should be at least 2 letters and contain only alphabetic characters">
+
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Email Address" 
+                required 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                title="Please enter a valid email address">
+
+            <input 
+                type="text" 
+                name="school" 
+                placeholder="School Name" 
+                required 
+                minlength="2" 
+                pattern="[A-Za-z\s]+" 
+                title="School name must be alphabetic and at least 2 characters">
+
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Create Password" 
+                required 
+                minlength="8" 
+                pattern="(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" 
+                title="Password must be at least 8 characters and include 1 uppercase letter, 1 number, and 1 special character">
+
+            <input 
+                type="password" 
+                id="confirm_password" 
+                name="confirm_password" 
+                placeholder="Confirm Password" 
+                required 
+                minlength="8">
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="signup-box">
+            Already have an account? <a href="{% url 'login:login' %}">Log in</a>
+        </div>
+    </div>
+
+    <script>
+        function validatePasswords() {
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm_password').value;
+            if (password !== confirm) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
